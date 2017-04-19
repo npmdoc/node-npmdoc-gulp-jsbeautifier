@@ -1,9 +1,14 @@
-# api documentation for  [gulp-jsbeautifier (v2.1.0)](https://github.com/tarunc/gulp-jsbeautifier)  [![npm package](https://img.shields.io/npm/v/npmdoc-gulp-jsbeautifier.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-gulp-jsbeautifier) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-jsbeautifier.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-jsbeautifier)
+# npmdoc-gulp-jsbeautifier
+
+#### api documentation for  [gulp-jsbeautifier (v2.1.0)](https://github.com/tarunc/gulp-jsbeautifier)  [![npm package](https://img.shields.io/npm/v/npmdoc-gulp-jsbeautifier.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-gulp-jsbeautifier) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-jsbeautifier.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-jsbeautifier)
+
 #### jsbeautifier.org for Gulp
 
-[![NPM](https://nodei.co/npm/gulp-jsbeautifier.png?downloads=true)](https://www.npmjs.com/package/gulp-jsbeautifier)
+[![NPM](https://nodei.co/npm/gulp-jsbeautifier.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/gulp-jsbeautifier)
 
-[![apidoc](https://npmdoc.github.io/node-npmdoc-gulp-jsbeautifier/build/screenCapture.buildNpmdoc.browser._2Fhome_2Ftravis_2Fbuild_2Fnpmdoc_2Fnode-npmdoc-gulp-jsbeautifier_2Ftmp_2Fbuild_2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-gulp-jsbeautifier/build/apidoc.html)
+- [https://npmdoc.github.io/node-npmdoc-gulp-jsbeautifier/build/apidoc.html](https://npmdoc.github.io/node-npmdoc-gulp-jsbeautifier/build/apidoc.html)
+
+[![apidoc](https://npmdoc.github.io/node-npmdoc-gulp-jsbeautifier/build/screenCapture.buildCi.browser.%252Ftmp%252Fbuild%252Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-gulp-jsbeautifier/build/apidoc.html)
 
 ![npmPackageListing](https://npmdoc.github.io/node-npmdoc-gulp-jsbeautifier/build/screenCapture.npmPackageListing.svg)
 
@@ -90,17 +95,14 @@
     "main": "index.js",
     "maintainers": [
         {
-            "name": "biasso",
-            "email": "simone.biassoni@outlook.com"
+            "name": "biasso"
         },
         {
-            "name": "tarunc",
-            "email": "tarunc92@gmail.com"
+            "name": "tarunc"
         }
     ],
     "name": "gulp-jsbeautifier",
     "optionalDependencies": {},
-    "readme": "ERROR: No README data found!",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/tarunc/gulp-jsbeautifier.git"
@@ -113,103 +115,6 @@
     },
     "version": "2.1.0"
 }
-```
-
-
-
-# <a name="apidoc.tableOfContents"></a>[table of contents](#apidoc.tableOfContents)
-
-#### [module gulp-jsbeautifier](#apidoc.module.gulp-jsbeautifier)
-1.  [function <span class="apidocSignatureSpan">gulp-jsbeautifier.</span>reporter (options)](#apidoc.element.gulp-jsbeautifier.reporter)
-1.  [function <span class="apidocSignatureSpan">gulp-jsbeautifier.</span>validate (options)](#apidoc.element.gulp-jsbeautifier.validate)
-1.  object <span class="apidocSignatureSpan">gulp-jsbeautifier.</span>report
-
-
-
-# <a name="apidoc.module.gulp-jsbeautifier"></a>[module gulp-jsbeautifier](#apidoc.module.gulp-jsbeautifier)
-
-#### <a name="apidoc.element.gulp-jsbeautifier.reporter"></a>[function <span class="apidocSignatureSpan">gulp-jsbeautifier.</span>reporter (options)](#apidoc.element.gulp-jsbeautifier.reporter)
-- description and source-code
-```javascript
-function reporter(options) {
-  var verbosity = 0;
-  var errorCount = 0;
-
-  if (typeof options === 'object' && Object.prototype.hasOwnProperty.call(options, 'verbosity')) {
-    verbosity = options.verbosity;
-  }
-
-  return through.obj(function (file, encoding, callback) {
-    if (file.jsbeautify) {
-      if (verbosity >= 1 && file.jsbeautify.type === null) {
-        log('Can not beautify ' + gutil.colors.cyan(file.relative));
-      } else if (verbosity >= 0 && file.jsbeautify.beautified) {
-        log('Beautified ' + gutil.colors.cyan(file.relative) + ' [' + file.jsbeautify.type + ']');
-      } else if (verbosity >= 0 && file.jsbeautify.canBeautify) {
-        errorCount += 1;
-        log('Can beautify ' + gutil.colors.cyan(file.relative) + ' [' + file.jsbeautify.type + ']');
-      } else if (verbosity >= 1) {
-        log('Already beautified ' + gutil.colors.cyan(file.relative) + ' [' + file.jsbeautify.type + ']');
-      }
-    }
-
-    callback(null, file);
-  }, function flush(callback) {
-    if (errorCount > 0) {
-      this.emit('error', new PluginError(PLUGIN_NAME, 'Validation not passed. Please beautify.'));
-    }
-    callback();
-  });
-}
-```
-- example usage
-```shell
-...
-'''javascript
-var gulp = require('gulp');
-var prettify = require('gulp-jsbeautifier');
-
-gulp.task('validate', function() {
-  return gulp.src(['./*.css', './*.html', './*.js'])
-    .pipe(prettify.validate())
-    .pipe(prettify.reporter())
-});
-'''
-
-## Reporter
-Lists files that have been beautified, those already beautified, and those that can not be beautified.
-If the [validate](#validate) feature is used, the reporter lists files that can be beautified and emits an error before the stream
- ends if such a file was detected.
-...
-```
-
-#### <a name="apidoc.element.gulp-jsbeautifier.validate"></a>[function <span class="apidocSignatureSpan">gulp-jsbeautifier.</span>validate (options)](#apidoc.element.gulp-jsbeautifier.validate)
-- description and source-code
-```javascript
-function validate(options) {
-  return helper(options, true);
-}
-```
-- example usage
-```shell
-...
-
-'''javascript
-var gulp = require('gulp');
-var prettify = require('gulp-jsbeautifier');
-
-gulp.task('validate', function() {
-  return gulp.src(['./*.css', './*.html', './*.js'])
-    .pipe(prettify.validate())
-    .pipe(prettify.reporter())
-});
-'''
-
-## Reporter
-Lists files that have been beautified, those already beautified, and those that can not be beautified.
-If the [validate](#validate) feature is used, the reporter lists files that can be beautified and emits an error before the stream
- ends if such a file was detected.
-...
 ```
 
 
